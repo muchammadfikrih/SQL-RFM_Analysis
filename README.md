@@ -1,4 +1,4 @@
-# NewProject
+# SQL Project
 SQL Project: RFM Analysis
 
 [Tableau Dashboard 1](https://public.tableau.com/app/profile/muchammad.fikri.haikal/viz/CustomersSegmentation2/Dashboard2?publish=yes)
