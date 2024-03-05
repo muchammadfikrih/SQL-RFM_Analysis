@@ -1,6 +1,6 @@
 # SQL Project: RFM Analysis
 
-[Tableau Dashboard 1]([https://public.tableau.com/app/profile/muchammad.fikri.haikal/viz/CustomersSegmentation2/Dashboard2?publish=yes](https://public.tableau.com/views/RFMDashboard_17096136348980/Dashboard1?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)https://public.tableau.com/views/RFMDashboard_17096136348980/Dashboard1?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)
+[Tableau Link]([https://public.tableau.com/app/profile/muchammad.fikri.haikal/viz/CustomersSegmentation2/Dashboard2?publish=yes](https://public.tableau.com/views/RFMDashboard_17096136348980/Dashboard1?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)https://public.tableau.com/views/RFMDashboard_17096136348980/Dashboard1?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link)
 
 In this project, I demonstrate how to segmenting the customers into several categories which called RFM Analysis.
 This particular analysis will analyzed the customer behavior by their recency, frequency, and monetary:
