@@ -1,7 +1,9 @@
--- copy online_retail from 'Q:\HDD\dataset\OnlineRetail_II\online_retail_II.csv' DELIMITER ',' CSV HEADER;
+--------------Importing Dataset
 
----------------Data Cleaning--------------- 
----------------Checking null-values-----------------
+copy online_retail from 'Q:\HDD\dataset\OnlineRetail_II\online_retail_II.csv' DELIMITER ',' CSV HEADER;
+
+---------------Data Cleaning
+---------------Checking null-values
 
 with null_value as
 (
@@ -9,30 +11,31 @@ select *
 from online_retail_raw 
 where customer_id is not null
 )
----------------Checking duplicate values-------------
+---------------Checking duplicate values
 , duplicate_check as
 (
 select *, row_number() over (partition by invoice, stock_code, quantity, price, customer_id, country order by invoice_date)duplicate_label
 from null_value
 order by invoice_date desc, invoice, stock_code, quantity, price, customer_id, country
 )
----------------Some of the records are negative value. We don't want this recordes in our analysis. So we will drop this records too.
+---------------Some of the records are negative value. We don't want this recordes in our analysis. 
+---------------So we will drop this records too.
 , negative_value as
 (
 select * 
 from duplicate_check
 where duplicate_label = 1 and quantity > 0 and price > 0
 )
----------------Here is our clean data----------------
+---------------Here is our clean data
 select invoice, stock_code, description, quantity, invoice_date, price, customer_id, country 
 into online_retail_clean
 from negative_value
 
 select * from online_retail_clean
 
----------------BEGIN ANALYZING THE DATA--------------------
+---------------BEGIN ANALYZING THE DATA
 
----------------Top 10 country with most total transaction---------------
+---------------Top 10 country with most total transaction
 
 with total as
 (
@@ -45,7 +48,7 @@ group by country
 order by sum(total_purchase) desc
 limit 10
 
----------------Top 10 country with most users---------------
+---------------Top 10 country with most users
 
 
 select count(distinct customer_id) total_users , country
@@ -54,16 +57,16 @@ group by country
 order by count(distinct customer_id) desc
 limit 10
 
----------------Recency, Frequency, Monetary------------------------
+---------------Recency, Frequency, Monetary
 
----------------Add column total purchase and re-arrange the column for analysis--------
+---------------Add column total purchase and re-arrange the column for analysis
 select customer_id, country, invoice, invoice_date, stock_code, description, price, quantity, price * quantity as total_purchase  
 into rfm_table
 from online_retail_clean
 
 select * from rfm_table
 
----------------Begin customers scoring------------
+---------------Begin customers scoring
 -------------------------------------------------------------------------------------------------------------------------------------------------
 --We need 3 variables to do this kind analysis.
 --First is recency, which tells how recent was the customer's last purchase. So we need the last transaction recorded-
@@ -102,7 +105,7 @@ from scoring
 
 select * from rfm_table_raw
 
----------------------------Customer Segmentation--------------------
+---------------------------Customer Segmentation
 -------------------------------------------------------------------------------------------------------------------------------------------------
 --So we already know the customer's score. Next we need to group these customers based on scoring condition. In this case we group-
 --the customer into these labels with certain criteria:
@@ -132,15 +135,23 @@ select
 		when rfm_score in('321','322','323','324') then 'Potential Customer'
 		else 'Customer'
 	end rfm_segment
-into customer_segmented
+into segment
 from rfm_table_raw
 
---Add country column and store the result on final table for visualisation
-select distinct on (cs.customer_id) cs.customer_id, recency, frequency, monetary, 
-				recency_score, frequency_score, monetary_score, rfm_segment, orc.country
-into customer_segmented_country
-from customer_segmented cs 
-join online_retail_clean orc
-on cs.customer_id = orc.customer_id
+---------------Join table and store the result on final table for visualisation
+select 
+	invoice, 
+	stock_code, 
+	description, 
+	quantity, 
+	invoice_date, 
+	price, 
+	orc.customer_id,
+	rfm_segment,
+	country
+into customer_segmented
+from online_retail_clean orc 
+join segment s
+on s.customer_id = orc.customer_id
 
-select * from customer_segmented_country
+select * from customer_segmented
