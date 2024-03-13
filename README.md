@@ -11,7 +11,7 @@ This particular analysis will analyzed the customer behavior by their recency, f
 
 By doing this analysis, company can segmenting their customers into different groups based on these three factors, allowing the company to understand their customer base better strategies to treat them accordingly. By identifying high-value, loyal, and potentially at-risk customers, the company can optimize their marketing efforts, improve customer retention, and ultimately increase revenue and profitability.
 
-At last, I also visualize the result via tableau so it can more interactive and more interative for the users to get the data based
+At last, I also visualize the result via tableau so it can more interactive and more informative for the users to get the data based
 on condition they wanted to know.
 
 If you wanted to discuss or having any thought about this project, please kindly contact me at my email: contact.fikrihaikal@gmail.com
